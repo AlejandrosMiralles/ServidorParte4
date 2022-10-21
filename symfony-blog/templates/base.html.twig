@@ -8,14 +8,19 @@
     
 	  <title>{% block title %}Inicio{% endblock %}</title>
 
-  	<!-- Bootstrap core css -->
-  	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
-  	<!-- Bootstrap core css -->
-  	<link rel="stylesheet" type="text/css" href="css/style.css">
-  	<!-- Magnific-popup css -->
-  	<link rel="stylesheet" type="text/css" href="css/magnific-popup.css">
-  	<!-- Font Awesome icons -->
-  	<link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css">
+    {% block stylesheets %}
+
+            <!-- Bootstrap core css -->
+            <link rel="stylesheet" type="text/css" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+            <!-- Bootstrap core css -->
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
+            <!-- Magnific-popup css -->
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/magnific-popup.css') }}">
+            <!-- Font Awesome icons -->
+            <link rel="stylesheet" type="text/css" href="{{ asset('font-awesome/css/font-awesome.min.css') }}">
+
+    {% endblock %}
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -23,6 +28,9 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+
+
 </head>
 <body id="page-top">
 
@@ -45,7 +53,7 @@
               <li class="active lien"><a href="#"><i class="fa fa-home sr-icons"></i> Home</a></li>
               <li class=" lien"><a href="about.html"><i class="fa fa-bookmark sr-icons"></i> About</a></li>
               <li class=" lien"><a href="blog.html"><i class="fa fa-file-text sr-icons"></i> Blog</a></li>
-              <li><a href="contact.html"><i class="fa fa-phone-square sr-icons"></i> Contact</a></li>
+              <li><a href="/contact"><i class="fa fa-phone-square sr-icons"></i> Contact</a></li>
             </ul>
          </div>
      </div>
@@ -55,6 +63,9 @@
 <!-- Principal Content Start -->
   {% block body %}
   {% endblock %}
+
+
+
    <!-- Footer -->
    <footer class="home-page">
      <div class="container text-muted text-center">
@@ -76,14 +87,24 @@
      </div>
    </footer>
 
-   <!-- Jquery -->
-   <script type="text/javascript" src="js/jquery.min.js"></script>
-   <!-- Bootstrap core Javascript -->
-   <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-   <!-- Plugins -->
-   <script type="text/javascript" src="js/jquery.easing.min.js"></script>
-   <script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
-   <script type="text/javascript" src="js/scrollreveal.min.js"></script>
-   <script type="text/javascript" src="js/script.js"></script>
+  {% block javascripts %}
+
+            {{ encore_entry_script_tags('app') }}
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+            <!-- Jquery -->
+            <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+            <!-- Bootstrap core Javascript -->
+            <script type="text/javascript" src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+            <!-- Plugins -->
+            <script type="text/javascript" src="{{ asset('js/jquery.easing.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/scrollreveal.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/script.js') }}"></script>
+  {% endblock %}
+
+
+   
 </body>
 </html>
