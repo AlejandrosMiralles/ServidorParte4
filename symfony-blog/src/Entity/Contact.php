@@ -16,11 +16,8 @@ class Contact
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-    * @ORM\Column(type="string", length=255)
-    * @Assert\NotBlank
-    * (message="Field `First Name` is mandatory")
-    */
+    //Volver a rehacer la base de datos y luego, si eso, volver a crear la entidad (tengo todo en "Archivos Modificados")
+    #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
     /**
