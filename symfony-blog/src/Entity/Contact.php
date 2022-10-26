@@ -16,39 +16,20 @@ class Contact
     #[ORM\Column]
     private ?int $id = null;
 
-    //Volver a rehacer la base de datos y luego, si eso, volver a crear la entidad (tengo todo en "Archivos Modificados")
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
-    /**
-    * @ORM\Column(type="string", length=255)
-    * @Assert\NotBlank
-    * (message="Field `Last Name` is mandatory")
-    */
-    private $lastName = null;
+    #[ORM\Column(length: 255)]
+    private ?string $lastName = null;
 
-    /**
-    * @ORM\Column(type="string", length=255)
-    * @Assert\NotBlank()
-    * @Assert\Email
-    * (message=" is not a valid email")
-    */
-    private $email = null;
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $subject = null;
 
-    /**
-    * @ORM\Column(type="string", length=255)
-    * @Assert\NotBlank
-    * (message="Field `Subject` is mandatory")
-    */
-    private $subject = null;
-
-    /**
-    * @ORM\Column(type="Text")
-    * @Assert\NotBlank
-    * (message="Field `Message` is mandatory")
-    */
-    private $message = null;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $message = null;
 
     public function getId(): ?int
     {
