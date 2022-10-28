@@ -14,6 +14,9 @@ use Doctrine\Persistence\ManagerRegistry ;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 class BlogController extends AbstractController
 {
 
@@ -35,6 +38,33 @@ class BlogController extends AbstractController
         $form = $this->createForm(PostFormType::class, $post);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('File')->getData();
+            if ($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+        
+                // Move the file to the directory where images are stored
+                try {
+                    
+                    $file->move(
+                        $this->getParameter('images_directory'), $newFilename
+                    );
+                    $filesystem = new Filesystem();
+                    $filesystem->copy(
+                            $this->getParameter('images_directory') . '/'. $newFilename, 
+                            $this->getParameter('portfolio_directory') . '/'.  $newFilename, true);
+                   
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+        
+                // updates the 'file$filename' property to store the PDF file name
+                // instead of its contents
+                $post->setImage($newFilename);
+            }
+            
             $post = $form->getData();   
             $post->setSlug($slugger->slug($post->getTitle()));
             $post->setPostUser($this->getUser());
