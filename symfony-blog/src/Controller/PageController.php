@@ -30,8 +30,7 @@ class PageController extends AbstractController
     }
 
     #[Route('/contact', name: 'contact')]
-    public function contact(ManagerRegistry $doctrine, Request $request): Response
-    {
+    public function contact(ManagerRegistry $doctrine, Request $request): Response{
         $contact = new Contact();
 
         $formulario=  $this->createForm(ContactFormType::class, $contact);

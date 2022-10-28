@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% block title %}Lista Imagenes{% endblock %}
+{% block body %}
+    <h1>Imagenes:</h1>
+
+    <table>
+    <tr>
+        <td>#</td>
+        <td>File</td>
+        <td>Views</td>
+        <td>Likes</td>
+        <td>Downloads</td>
+        <td>Category</td>
+    <tr/>
+        {% for imagen in imagenes %}
+            <tr>
+                <td>{{ imagen.id }}</td>
+                <td><img src="{{ asset('images/index/gallery/' ~ imagen.file) }}" /></td> 
+                <td>{{ imagen.numViews }}</td>
+                <td>{{ imagen.numLikes }}</td>
+                <td>{{ imagen.numDownloads }}</td>
+                <td>{{ imagen.category.name }}</td>
+            <tr/>
+        {% endfor %}
+    </table>
+{% endblock %}

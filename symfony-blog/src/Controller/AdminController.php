@@ -23,33 +23,39 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends AbstractController
 {
+    public function adminDashboard(){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
+        // or add an optional message - seen by developers
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+    }
+
+        
     /**
-     * @Route("/admin/images", name="app_images")
-     *
-    public function images(ManagerRegistry $doctrine, Request $request): Response{
-        $repositorio = $doctrine->getRepository(Image::class);
+     * @Route("/admin/categories", name="app_categories")
+     */
+    public function categories(ManagerRegistry $doctrine, Request $request): Response{
+        $repositorio = $doctrine->getRepository(Category::class);
 
-        $images = $repositorio->findAll();
+        $categories = $repositorio->findAll();
 
-        $image = new Image();
-        $form = $this->createForm(ImageFormType::class, $image);
+        $category = new Category();
+        $form = $this->createForm(CategoryFormType::class, $category);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $image = $form->getData();    
+            $category = $form->getData();    
             $entityManager = $doctrine->getManager();    
-            $entityManager->persist($image);
+            $entityManager->persist($category);
             $entityManager->flush();
         }
         
-        return $this->render('admin/images.html.twig', array(
+        return $this->render('admin/categories.html.twig', array(
             'form' => $form->createView(),
-            'images' => $images 
+            'categories' => $categories   
         ));
 
     }
-    // */
 
     /**
      * @Route("/admin/images", name="app_images")
@@ -101,41 +107,14 @@ class AdminController extends AbstractController
         ));
     }
 
-    // */
-
-    public function adminDashboard(){
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        // or add an optional message - seen by developers
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
-    }
-
-        
     /**
-     * @Route("/admin/categories", name="app_categories")
+     * @Route("/admin/showimages", name="show_images")
      */
-    public function categories(ManagerRegistry $doctrine, Request $request): Response{
-        $repositorio = $doctrine->getRepository(Category::class);
+    public function showImages(ManagerRegistry $doctrine, Request $request): Response{
+        $repository = $doctrine->getRepository(Image::class);
 
-        $categories = $repositorio->findAll();
+        $images = $repository->findAll();
 
-        $category = new Category();
-        $form = $this->createForm(CategoryFormType::class, $category);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $category = $form->getData();    
-            $entityManager = $doctrine->getManager();    
-            $entityManager->persist($category);
-            $entityManager->flush();
-        }
-        
-        return $this->render('admin/categories.html.twig', array(
-            'form' => $form->createView(),
-            'categories' => $categories   
-        ));
-
+        return $this->render('admin/listaImagenes.html.twig', ['imagenes'=>$images]);
     }
-
-
 }
