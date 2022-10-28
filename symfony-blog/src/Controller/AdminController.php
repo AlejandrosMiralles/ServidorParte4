@@ -110,7 +110,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/showimages", name="show_images")
      */
-    public function showImages(ManagerRegistry $doctrine, Request $request): Response{
+    public function showImages(ManagerRegistry $doctrine): Response{
         $repository = $doctrine->getRepository(Image::class);
 
         $images = $repository->findAll();
