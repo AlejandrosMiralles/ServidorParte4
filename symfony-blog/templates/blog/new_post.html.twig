@@ -7,7 +7,28 @@
    	    <div class="col-xs-12 col-sm-8 col-sm-push-2">
        	   <h1>New Post</h1>
 		   	<!-- Modiificar este html para poder mostrar los css del form -->
-			   {{ form(form, {'attr': {'class':'form-horizontal'}}) }}
+			   {{ form_start(form, {'attr': {'class':'form-horizontal'}}) }}
+                {{ form_errors(form) }}
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            {{ form_row(form.title, {'attr': {'class':'form-control'}}) }}
+                        </div>
+                        <div class="col-xs-6">
+                            {{ form_row(form.content, {'attr': {'class':'form-control'}}) }}
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <div class="col-xs-12">
+                            {{ form_row(form.image, {'attr': {'class':'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            {{ form_row(form.Send, {'attr': {'class':'pull-right btn btn-lg sr-button'}}) }}
+                        </div>
+                    </div>
+            {{ form_end(form) }}
+
        	   <hr class="divider">
 		</div>   
    	  </div>

@@ -17,12 +17,10 @@ use Symfony\Component\Validator\Constraints\File;
 class PostFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void{
-        //Modificar los add para mostrar los css
         $builder
-            ->add('title')
-            ->add('content')
-            ->add('image')
-            ->add('File', FileType::class,[
+            ->add('title', null, ['attr' => ['class'=>'form-control']])
+            ->add('content', null, ['attr' => ['class'=>'form-control']])
+            ->add('image', FileType::class,[
                 'mapped' => false,
                 'constraints' => [
                     new File([
@@ -33,7 +31,7 @@ class PostFormType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid image file',
                     ])
                 ],
-            ])
+            ], ['attr' => ['class'=>'form-control']])
             ->add('Send', SubmitType::class);
         ;
     }

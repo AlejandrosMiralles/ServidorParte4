@@ -34,6 +34,12 @@ class BlogController extends AbstractController
      * @Route("/blog/new", name="new_post")
      */
     public function newPost(ManagerRegistry $doctrine, Request $request, SluggerInterface $slugger): Response{
+        
+        //Reenviar al usuario a /login si no está conectado
+        if (! $this->getUser()){
+            return $this->redirectToRoute('app_login');
+        }
+        
         $post = new Post();
         $form = $this->createForm(PostFormType::class, $post);
         $form->handleRequest($request);
@@ -73,13 +79,26 @@ class BlogController extends AbstractController
             $entityManager = $doctrine->getManager();    
             $entityManager->persist($post);
             $entityManager->flush();
-            return $this->render('blog/new_post.html.twig', array(
-                'form' => $form->createView()    
-            ));
+
+            //Dónde va este redirectToRoute ????? 
+            return $this->redirectToRoute('single_post', ["slug" => $post->getSlug()]);
         }
         return $this->render('blog/new_post.html.twig', array(
             'form' => $form->createView()    
         ));
     }
+
+    /**
+     * @Route("/single_post/{slug}", name="single_post")
+     */
+    public function post(ManagerRegistry $doctrine, $slug): Response
+    {
+        $repositorio = $doctrine->getRepository(Post::class);
+        $post = $repositorio->findOneBy(["slug"=>$slug]);
+        return $this->render('blog/singlePost.html.twig', [
+            'post' => $post,
+        ]);
+    }
+
 
 }
