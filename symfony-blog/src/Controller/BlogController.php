@@ -44,7 +44,7 @@ class BlogController extends AbstractController
         $form = $this->createForm(PostFormType::class, $post);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form->get('File')->getData();
+            $file = $form->get('image')->getData();
             if ($file) {
                 $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -80,7 +80,6 @@ class BlogController extends AbstractController
             $entityManager->persist($post);
             $entityManager->flush();
 
-            //Dónde va este redirectToRoute ????? 
             return $this->redirectToRoute('single_post', ["slug" => $post->getSlug()]);
         }
         return $this->render('blog/new_post.html.twig', array(

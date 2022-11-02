@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
+
 use App\Repository\PostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,20 +19,12 @@ class Post
     #[ORM\Column]
     private ?int $id = null;
 
-    //#[ORM\Column(length: 255)]
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     * (message="Field `Title` is mandatory")
-     */
+    #[ORM\Column(length: 255)]
+    #[Assert\NotNull]
     private ?string $title = null;
 
-    //    #[ORM\Column(type: Types::TEXT)]
-    /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank
-     * (message="Field `Content` is mandatory")
-     */
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotNull]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -40,12 +34,7 @@ class Post
     private ?User $postUser = null;
 
 
-    //#[ORM\Column(length: 255)]
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
-     * (message="Field `Image` is mandatory")
-     */
+    #[ORM\Column(length: 255)]
     private ?string $image = null;
 
     #[ORM\Column(length: 255)]
