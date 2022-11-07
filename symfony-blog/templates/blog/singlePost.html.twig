@@ -41,6 +41,9 @@
 
     <!-- Comments -->
       <div class="row">
+        {% for comment in comments %}
+          {{ include ('partials/comment.html.twig', {'comment':comment} ) }}
+        {% endfor %}
       <div class="col-xs-12 col-sm-12 block2">
           <hr class="line">
              {{ include ('partials/form_comment.html.twig') }}

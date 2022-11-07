@@ -1,0 +1,7 @@
+<h3>{{ comment.name }}</h3>
+<p>{{ comment.text }} </p>
+<p>{{ comment.publishedAt | date('d') }} {{ comment.publishedAt | date('F') }}</p>
+<p><i class="fa fa-clock-o sr-icons"></i> 
+    {{ comment.publishedAt | date('h') }} 
+    {{ comment.publishedAt | date('A') }}
+</p>

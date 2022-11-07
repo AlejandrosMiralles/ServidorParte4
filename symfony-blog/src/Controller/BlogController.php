@@ -98,7 +98,9 @@ class BlogController extends AbstractController
      */
     public function post(ManagerRegistry $doctrine, Request $request, $slug): Response{
         $repository = $doctrine->getRepository(Post::class);
+        $commentRepository = $doctrine->getRepository(Comment::class);
         $post = $repository->findOneBy(["slug"=>$slug]);
+        $commentsToShow = $commentRepository->findBy(["post"=>$post->getId()]);
         $recents = $repository->findRecents();
         $comment = new Comment();
         $form = $this->createForm(CommentFormType::class, $comment);
@@ -116,6 +118,7 @@ class BlogController extends AbstractController
         return $this->render('blog/singlePost.html.twig', [
             'post' => $post,
             'recents' => $recents,
+            'comments' => $commentsToShow,
             'commentForm' => $form->createView()
         ]);
     }
