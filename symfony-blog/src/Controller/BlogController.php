@@ -6,6 +6,8 @@ use App\Entity\Post;
 
 use App\Form\PostFormType;
 
+use App\Repository\PostRepository;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,7 +29,9 @@ class BlogController extends AbstractController
 
     #[Route('/blog/singlePost', name: 'singlePost')]
     public function singlePost(): Response{
-        return $this->render('blog/singlePost.html.twig', []);
+        return $this->render('blog/singlePost.html.twig', [
+            'recents'=>null
+        ]);
     }
 
     /**
@@ -92,12 +96,15 @@ class BlogController extends AbstractController
      */
     public function post(ManagerRegistry $doctrine, $slug): Response
     {
-        $repositorio = $doctrine->getRepository(Post::class);
-        $post = $repositorio->findOneBy(["slug"=>$slug]);
+        $repository = $doctrine->getRepository(Post::class);
+        $post = $repository->findOneBy(["slug"=>$slug]);
+        $recents = $repository->findRecents();
         return $this->render('blog/singlePost.html.twig', [
             'post' => $post,
+            'recents' => $recents
         ]);
     }
+
 
 
 }
