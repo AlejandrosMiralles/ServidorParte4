@@ -1,10 +1,13 @@
  <div class="new new1">
     <hr>
-        <a href="{{ path('single_post', {'slug':recent.slug}) }}">{{ recent.title }}</a>
-        <h5> By <span>{{ recent.postUser.name }}</span></h5>
         <p>{{ recent.publishedAt | date('d') }} {{ recent.publishedAt | date('F') }}</p>
-        <p><i class="fa fa-clock-o sr-icons"></i> 
-         {{ recent.publishedAt | date('h') }} 
-         {{ recent.publishedAt | date('A') }}
-         </p>
+
+        <img src="{{ asset('images/index/portfolio/' ~ recent.image) }}" />
+
+        <ul class="list-inline text-center">
+          <li><i class="fa fa-eye"></i> {{ recent.numComments }}</li>
+          <li><i class="fa fa-heart"></i> {{ recent.numLikes }}</li>
+        </ul>
+   
+        <a href="{{ path('single_post', {'slug':recent.slug}) }}">{{ recent.title }}</a>
 </div>
