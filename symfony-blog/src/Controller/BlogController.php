@@ -24,18 +24,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class BlogController extends AbstractController
 {
 
-
-
-    /**
-     * @Route("/blog/singlePost", name="singlePost")
-     */
-    public function singlePost(): Response{
-        return $this->render('blog/singlePost.html.twig', [
-            'recents'=>null,
-            'post'=>null
-        ]);
-    }
-
     /**
      * @Route("/single_post/{slug}/like", name="post_like")
      */
@@ -157,7 +145,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/blog/{page}", name="blog")
+     * @Route("/blog/{page}", name="blog", requirements={"page"="\d+"})
      */
     public function index(ManagerRegistry $doctrine, int $page = 1): Response{
         $repository = $doctrine->getRepository(Post::class);
