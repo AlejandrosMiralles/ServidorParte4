@@ -24,9 +24,17 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class BlogController extends AbstractController
 {
 
-    #[Route('/blog', name: 'blog')]
-    public function blog(): Response{
-        return $this->render('blog/index.html.twig', []);
+    /**
+     * @Route("/blog/{page}", name="blog")
+     */
+    public function index(ManagerRegistry $doctrine, int $page = 1): Response
+    {
+        $repository = $doctrine->getRepository(Post::class);
+        $posts = $repository->findAllPaginated($page);
+        
+        return $this->render('blog/index.html.twig', [
+            'posts' => $posts,
+        ]);
     }
 
     #[Route('/blog/singlePost', name: 'singlePost')]
