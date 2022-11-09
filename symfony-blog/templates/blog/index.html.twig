@@ -13,30 +13,57 @@
             {% for post in posts.results %}
             {{ include ('partials/post.html.twig', {'post': post}) }}
             {% endfor %}
-            {% if posts.hasToPaginate %}
-                <div class="text-left">
+
+            {% if (app.request.attributes.get('_route') == 'blog') %}
+                {% if posts.hasToPaginate %}
+                    <div class="text-left">
+                        <ul class="pagination">
+                            {% if posts.hasPreviousPage %}
+                                <li class="prev"><a href="{{ path('blog', {page: posts.previousPage}) }}" rel="previous"><i class="fa fw fa-long-arrow-left"></i> Previous</a></li>
+                            {% else %}
+                                <li class="prev disabled"><span><i class="fa fw fa-arrow-left"></i> Previous </span></li>
+                            {% endif %}
+
+                            {% for i in 1..posts.lastPage %}
+                                {% if i == posts.currentPage %}
+                                    <li class="active"><span>{{ i }}</span></li>
+                                {% else %}
+                                    <li><a href="{{ path('blog', {page: i}) }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if posts.hasNextPage %}
+                                <li class="next"><a href="{{ path('blog', {page: posts.nextPage}) }}" rel="next">Next <i class="fa fw fa-arrow-right"></i></a></li>
+                            {% else %}
+                                <li class="next disabled"><span>Next <i class="fa fw fa-arrow-right"></i></span></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% else %}
+                {% if posts.hasToPaginate %}
+                    <div class="text-left">
                     <ul class="pagination">
                         {% if posts.hasPreviousPage %}
-                            <li class="prev"><a href="{{ path('blog', {page: posts.previousPage}) }}" rel="previous"><i class="fa fw fa-long-arrow-left"></i> Previous</a></li>
+                            <li class="prev"><a href="{{ path('blog_buscar', {page: posts.previousPage}) }}?searchTerm={{searchTerm}}" rel="previous"><i class="fa fw fa-long-arrow-left"></i> Previous</a></li>
                         {% else %}
                             <li class="prev disabled"><span><i class="fa fw fa-arrow-left"></i> Previous </span></li>
                         {% endif %}
-
                         {% for i in 1..posts.lastPage %}
                             {% if i == posts.currentPage %}
                                 <li class="active"><span>{{ i }}</span></li>
                             {% else %}
-                                <li><a href="{{ path('blog', {page: i}) }}">{{ i }}</a></li>
+                                <li><a href="{{ path('blog_buscar', {page: i}) }}?searchTerm={{searchTerm}}">{{ i }}</a></li>
                             {% endif %}
                         {% endfor %}
-
                         {% if posts.hasNextPage %}
-                            <li class="next"><a href="{{ path('blog', {page: posts.nextPage}) }}" rel="next">Next <i class="fa fw fa-arrow-right"></i></a></li>
+                            <li class="next"><a href="{{ path('blog_buscar', {page: posts.nextPage}) }}?searchTerm={{searchTerm}}" rel="next">Next <i class="fa fw fa-arrow-right"></i></a></li>
                         {% else %}
                             <li class="next disabled"><span>Next <i class="fa fw fa-arrow-right"></i></span></li>
                         {% endif %}
                     </ul>
-                </div>
+                    </div>
+                {% endif %}
             {% endif %}
 
             <div class="col-xs-12 col-sm-12">
@@ -117,14 +144,12 @@
 
         <!-- Side bar -->  
             <div class="col-xs-12 col-sm-4">
-            <form class="form-horizontal">
-                <div class="input-group">
-                <input class="form-control" type="text" placeholder="Research">
-                <span class="input-group-btn">
-                    <a href="" class="btn"><i class="fa fa-search"></i></a>
-                </span>
-                </div>
+            <form class="" action='{{ path('blog_buscar') }}'>
+                <input type="text" class="form-control" style="display:unset; width:85%" placeholder="Research" name='searchTerm'>
+                <button type='submit' class="btn btn-primary btn-danger"><i class="fa fa-search"></i>
+                </button>
             </form>
+
             <div class="panel">
                 <div class="panel-heading">
                 <h4>Categories</h4>
